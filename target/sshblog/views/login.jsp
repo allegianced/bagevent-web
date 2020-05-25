@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: hp
@@ -21,7 +22,7 @@
             <tr></tr>
             <tr></tr>
             <tr>
-                <td colspan="2" style="color: red">${msg}</td>
+                    <td colspan="2" style="color: red">${msg}</td>
             </tr>
             <tr>
                 <td>用户名</td>
@@ -38,13 +39,5 @@
             </tr>
         </table>
     </form>
-    <div id="like_button_container"></div>
-    <!-- 加载 React。-->
-    <!-- 注意: 部署时，将 "development.js" 替换为 "production.min.js"。-->
-    <script src="https://unpkg.com/react@16/umd/react.production.min.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js" crossorigin></script>
-
-    <!-- 加载我们的 React 组件。-->
-    <script src="like_button.js"></script>
 </body>
 </html>

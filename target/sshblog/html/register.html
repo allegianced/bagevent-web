@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>百格注册</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.4.0/umd/react.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.4.0/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<body>
+<div id="content"></div>
+
+<script type="text/babel">
+    class Register extends React.Component {
+        constructor(props) {
+            super(props);
+            this.Submit = this.Submit.bind(this);
+            this.check = this.check.bind(this);
+            this.state = {
+                user_name: "",
+                password: "",
+                cellphone: "",
+                email:"",
+            }
+        }
+        Submit(){
+            alert("用户名："+this.refs.user_name.value+"密码："+this.refs.password.value)
+            fetch('/bagevent_web_war/add',
+                {
+                    headers: {"Content-Type": "application/json"},
+                    method: 'POST',
+                    body: JSON.stringify({ user_name: this.refs.user_name.value,password:this.refs.password.value,cellphone:this.refs.cellphone.value,email:this.refs.email.value })
+                })
+                .then(response => {
+                    if (response.ok){//判断请求是否成功
+                        console.log(response.json());
+                        window.location.href = "http://localhost:8080/bagevent_web_war/tologin";
+                    }
+                    throw new Error('请求发生错误')
+                })
+                .then(data=>{
+                    console.log(data)
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+        }
+        check(){
+
+        }
+        render(){
+            return(
+                <div text-align="center">
+                    <h1>百格用户注册</h1>
+                        <p>用户名</p><input type="text" ref="user_name"/>
+                        <p>密&nbsp;&nbsp;码</p><input type="password" ref="password"/>
+                        <p>电&nbsp;&nbsp;话</p><input type="text" ref="cellphone"/>
+                        <p>邮&nbsp;&nbsp;箱</p><input type="text" ref="email"/><br/><br/>
+                        <button onClick={this.Submit}>提交</button>
+                </div>
+            )
+        }
+    }
+    ReactDOM.render(<Register />,document.getElementById("content"));
+</script>
+</body>
+</html>

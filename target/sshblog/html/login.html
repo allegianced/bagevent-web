@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>百格</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.4.0/umd/react.development.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.4.0/umd/react-dom.development.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<body>
+<div id="content"></div>
+
+ <script type="text/babel">
+		class Login extends React.Component{
+		constructor(props){
+		super(props);
+		this.login = this.login.bind(this);
+		this.register = this.register.bind(this);
+		this.check = this.check.bind(this);
+		this.state={
+			user_name:"",
+			password:"",
+            jsondata:"",
+			}
+		}
+		login(){
+			alert("用户名："+this.refs.user.value+"密码："+this.refs.pwd.value)
+			fetch('/bagevent_web_war/loginto',
+                {
+                    headers: {"Content-Type": "application/json"},
+                    method: 'POST',
+                    body: JSON.stringify({ user_name: this.refs.user.value,password:this.refs.pwd.value })
+				})
+                .then(response => {
+                    if (response.ok){//判断请求是否成功
+                        console.log(response.json());
+                        window.location.href = "http://localhost:8080/bagevent_web_war/toLoginLog?user_name="+this.refs.user.value+"&password="+this.refs.pwd.value;
+                    }
+                    throw new Error('请求发生错误')
+                })
+                .then(data=>{
+                    console.log(data)
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+		}
+		check(){
+				
+		}
+		register(){
+            window.location.href = "http://localhost:8080/bagevent_web_war/toregister";
+		}
+		render(){	
+            return(
+                 <div text-align="center">
+                     <h1>百格欢迎您登录</h1>
+                        <div>
+                            <input type="text" placeholder="用户名" ref="user" /><br/>
+                            <input type="password" placeholder="密码" ref="pwd" onChange={this.check}/><br/><br/>
+                            <button onClick={this.login}>登录</button>&nbsp;&nbsp;&nbsp;&nbsp;
+							<button onClick={this.register}>注册</button>
+                        </div>
+                </div>
+                )
+		    }
+		}
+		ReactDOM.render(<Login />,document.getElementById("content"));
+	</script>
+
+</body>
+</html>
